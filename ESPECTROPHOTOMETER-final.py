@@ -33,12 +33,12 @@ import tkinter as tk
 import matplotlib.colors as mcolors
 
 
-#Necessary codex to create the interface through library "Tkinter"
+#Necessary code to create the interface through library "Tkinter"
 
 raiz= Tk()
 raiz.title("Spectrophotometer")
 
-#function to extract path to the directory where the current script is located. It will be used later
+#Function to extract path to the directory where the current script is located. It will be used later
 
 def directory_path():
     # Gets the absolute path of the current script
@@ -47,7 +47,7 @@ def directory_path():
     # Gets the directory of the current script
     directory_script = os.path.dirname(script_path)
 
-    # modifies the directory path so that it can be read by python at a later time
+    # Modifies the directory path so that it can be read by python at a later time
     directory_process = directory_script.replace("\\" , "\\\\")
 
     return directory_process
@@ -60,20 +60,20 @@ def directory_path():
 # Function "examine" is associated with button 5, which is responsible for loading the file to be studied. This function stores the file path and displays it on the interface. It also resets all the text boxes of the interface and the graph that appears on the right.
 
 def examine():
-    global name1 #variable to saved path of  selected video or image 
+    global name1 #variable to save path of  selected video or image 
     global example1 #variable to show this path in the screen of the interface in the text box 3.
     name1 = filedialog.askopenfilename()
     example1.set(name1)
     
-    #all text box of the interface are shown in blank, except text box 3 which is showing selected path. 
-    wave.set("") #variable associated to text box 10
-    wave1.set("") #variable associated to text box 5
-    tframes.set("") #variable associated to text box 9
-    tframes1.set("") #variable associated to text box 4
-    process.set("") #variable associated to text box 6
-    saved.set("") #variable associated to text box 8
+    #All text boxes of the interface are shown in blank, except text box 3 which is showing selected path. 
+    wave.set("") #variable associated with text box 10
+    wave1.set("") #variable associated with text box 5
+    tframes.set("") #variable associated with text box 9
+    tframes1.set("") #variable associated with text box 4
+    process.set("") #variable associated with text box 6
+    saved.set("") #variable associated with text box 8
     
-    #Graph of the interface is shown empty, without any information
+    #Graph of the interface is initially shown empty, without any information
     fig, axs =plt.subplots(1,1,dpi=80, figsize=(7,5), sharey=True)
     fig.suptitle('')
     
@@ -81,30 +81,30 @@ def examine():
     canvas.draw()
     canvas.get_tk_widget().grid(column=4, row=1, rowspan=10)
 
-#Function "timef" is associated to button 16, which is responsible to saved time, introduce for the user (in the text box 4), in the system and be able to show in the text box 9
+#Function "timef" is associated with button 16, which is responsible to saved time, introduce for the user (in the text box 4), in the system and be able to show in the text box 9
 def timef():
     global time #variable that save the time introduce for the user in the text box 4
-    time=float(text_box4.get()) #The time add for the user is saved in the variable "time"
-    tframes.set(time) #The time introduced for the user is appeared in the text box 9
+    time=float(text_box4.get()) #The time added by the user is saved in the variable "time"
+    tframes.set(time) #The time introduced by the user appears in the text box 9
     time=float(text_box9.get())
     tframes1.set("") #Text box 4 is changed to blank
 
-#Function "landa" is associated to button 17, which is responsible to saved wavelength, introduce for the user(in the text box5), in the system and be able to show in the text box 10
+#Function "landa" is associated with button 17, which is responsible to save wavelength, introduced by the user(in the text box5), in the system and be able to show it in the text box 10
 def landa():
-    global lamda #variable that save the wavelength introduce for the user in the text box 5
-    lamda=int(text_box5.get())#The wavelength add for the user is saved in the variable "lamda"
-    wave.set(lamda)#The wavelength introduced for the user is appeared in the text box 10
+    global lamda #variable that save the wavelength introduce by the user in the text box 5
+    lamda=int(text_box5.get())#The wavelength add by the user is saved in the variable "lamda"
+    wave.set(lamda)#The wavelength introduced by the user appears in the text box 10
     lamda=int(text_box10.get())
     wave1.set("") #Text box 5 is changed to blank
 
-#Function "calculate" is associated to button 8, which is responsible to show the first frame of the video or the first image of the folder selected in another window. In this window, the user could select the desired area to study.
+#Function "calculate" is associated with button 8, which is responsible to show the first frame of the video or the first image of the folder selected in another window. In this window, the user could select the desired area to study.
 def calculate():
     #EXTRACTION OF VIDEO FRAMES AND LAB CORRESPONDING TO THE SELECTED AREA
-    global n #variable that will saved the number of obtained frames of the video selected or the number of images that appeared in the folder selected for the user. 
+    global n #variable that will save the number of obtained frames of the video selected or the number of images that appeared in the folder selected by the user. 
     global s #variable to identify if the selected process is "Spectrum kinetics" or "Single Spectrum Kinetics"
     global Labim #variable to save Lab coordinates of the frames or images studied during the process
     global nx # number of different wavelengths in each spectrum
-    global Labim_norm2 #variable to save Lab coordinates from the variable "Labim", but it will be normalised between o and 1 to introduce in the neural network correctly
+    global Labim_norm2 #variable to save Lab coordinates from the variable "Labim", but it will be normalized between 0 and 1 when introduced in the neural network 
     global sol_n_n # variable to save neural network results.
         
     s=0 #reset variable "s"
@@ -115,7 +115,7 @@ def calculate():
         
         vid = cv2.VideoCapture(name1)
         
-        #It is created a new folder (in the same folder where the script is saved) to save all frames that will be created from the video
+        #A new folder is created (in the same folder where the script is saved) to save all frames that will be extracted from the video
     
         try:
     
@@ -131,7 +131,7 @@ def calculate():
         currentframe = 0
         frame_count = 0
         fps = vid.get(cv2.CAP_PROP_FPS) #variable to extract the number of frames per second of the video
-        interval_frames = int(fps * time) #number of frames how often a frame should be extracted
+        interval_frames = int(fps * time) #number of frames specifying how often a frame should be extracted
         n=0  #reset of the variable "n"
         while (True):
     
@@ -166,9 +166,9 @@ def calculate():
     
         #SELECT PART OF THE IMAGE TO EVALUATE
             
-        #Function for the selection of the area of the created frames of the video to process
+        #Function for the selection of the area of video extracted frames to process
         def drawing(event,x,y,flags,param):
-            global pixelx1, pixelx2, pixely1, pixely2   #variables that will saved pixels of the selected area for the user
+            global pixelx1, pixelx2, pixely1, pixely2   #variables that will save pixels of the selected area by the user
             
             
             if event == cv2.EVENT_LBUTTONDOWN: # By clicking the left mouse button, the upper left corner of the area to be studied is selected.
@@ -176,7 +176,7 @@ def calculate():
                 #Pixels in X axis and Y axis are saved in variable "pixelx1" and "pixely1"
                 pixelx1=x
                 pixely1=y
-                #the selected pixels are displayed on the screen
+                #The selected pixels are displayed on the screen
                 print ('pixel x1=',x) 
                 print ('pixel y1=',y)
             if event == cv2.EVENT_RBUTTONDOWN: # By clicking the right mouse button, the bottom right corner of the area to be studied is selected.
@@ -184,12 +184,12 @@ def calculate():
                 #Pixels in X axis and Y axis are saved in variable "pixelx2" and "pixely2"
                 pixelx2=x
                 pixely2=y
-                #the selected pixels are displayed on the screen
+                #The selected pixels are displayed on the screen
                 print ('pixel x2=',x)
                 print ('pixel y2=',y)
                 cv2.rectangle(image,(pixelx1,pixely1),(pixelx2,pixely2),(255,0,0),1)
         	
-        #codex to show the first frame obtained of the video in another window and codex necessary to call the anterior function
+        #Code to show the first frame obtained of the video in another window and code necessary to call the previous function
         image = cv2.imread('./data/frame0.jpg')
         image_to_study = image.copy() 
     
@@ -205,27 +205,27 @@ def calculate():
     
         cv2.destroyAllWindows()
         
-        x_axis=abs(pixelx2-pixelx1) #variable to save the number of pixels in x axis from the area selected from the user
-        y_axis=abs(pixely2-pixely1) #variable to save the number of pixels in y axis from the area selected from the user
-        #It is shown the numbers of pixels in Y and X axis from the area selected from the user
+        x_axis=abs(pixelx2-pixelx1) #Variable to save the number of pixels in x axis from the area selected by the user
+        y_axis=abs(pixely2-pixely1) #Variable to save the number of pixels in y axis from the area selected by the user
+        #It is shown the numbers of pixels in Y and X axis from the area selected by the user
         print ('x_axis=',x_axis)
         print ('y_axis=',y_axis)
         
-        p=x_axis*y_axis #variable to save the number of total pixels from the area selected from the user
+        p=x_axis*y_axis #variable to save the number of total pixels from the area selected by the user
         Labim=np.zeros((n,3)) 
         
-        nx=61 #The number of diferrent wavelengths in each spectrum will be 61, one per 5 nm (400-700 nm)
+        nx=61 #The number of different wavelengths in each spectrum will be 61, one per 5 nm (400-700 nm)
         
-        #Is is called the function "directory_path" to extract path of the directory in which the script has been saved
+        #The function "directory_path" is called to extract directory path in which the script has been saved
         if __name__ == "__main__":
             
             Process_path = directory_path()
         
         #Necessary loop to extract Lab coordinates from each pixel of the selected area. Then, average value of each coordinate is obtained
         for Counter in range(n): 
-            image1=Image.open(Process_path + '\\data\\frame' + str(Counter) + '.jpg') #frame by frame is studied, focusing in the area selected from the user
+            image1=Image.open(Process_path + '\\data\\frame' + str(Counter) + '.jpg') #frame by frame is studied, focusing in the area selected by the user
             
-            Lab3=np.zeros((p,3)) # variable to save  Lab coordinates of each pixel of the area selected
+            Lab3=np.zeros((p,3)) # variable to save Lab coordinates of each pixel of the area selected
             c=0
             #Necessary loop to obtain Lab coordinates from each pixel in each frame 
             for i in range(y_axis):
@@ -246,7 +246,7 @@ def calculate():
                 a=a+Lab3[i,1]
                 b=b+Lab3[i,2]
             
-            Labim[Counter,:] = [L/p,a/p,b/p] #It is saved average Lab coordinates of the selected area from the user
+            Labim[Counter,:] = [L/p,a/p,b/p] #Average Lab coordinates of the selected area are saved by the user
             
     
         #DATA NORMALIZATION
@@ -278,11 +278,11 @@ def calculate():
         
         sol_n_n = load_model('Neural_network.h5') # the file containing all the neural network data is loaded. This file should be saved in the same folder as this script
     
-        process.set("Process completed") #The process has been finished and the text box 6 show it
+        process.set("Process completed") #The process has been finished and the text box 6 shows it
     
     if option1==2: #User has selected "Image sequence" option
                
-        #codex lines to extract the name of folder in which the images are
+        #code lines to extract the name of folder in which the images are
         f=0
         variable=-1
         
@@ -308,7 +308,7 @@ def calculate():
             else:
                 variable=variable+1
         
-        def drawing(event,x,y,flags,param): #The same function created in video section to obtain the selected area for the user
+        def drawing(event,x,y,flags,param): #The same function created in video section to obtain the selected area by the user
             global pixelx1, pixelx2, pixely1, pixely2
         	   
             if event == cv2.EVENT_LBUTTONDOWN:
@@ -323,7 +323,7 @@ def calculate():
                 print ('pixel y2=',y)
                 cv2.rectangle(image,(pixelx1,pixely1),(pixelx2,pixely2),(255,0,0),1)
         	
-        #codex to show the image selected for the user in another window and codex necessary to call the anterior function
+        #code to show the image selected by the user in another window and code necessary to call the anterior function
         image = cv2.imread('./'+str(name6))
         image_to_study = image.copy() 
     
@@ -338,7 +338,7 @@ def calculate():
     
         cv2.destroyAllWindows()
         
-        #codex lines to extract the path of the folder of the images in variable "name8"
+        #code lines to extract the images folder path in variable "name8"
         
         f=0
         variable=-1
@@ -363,18 +363,18 @@ def calculate():
         # Count the number of files
         n = len(files)
         
-        x_axis=abs(pixelx2-pixelx1) #variable to save the number of pixels in x axis from the area selected from the user
-        y_axis=abs(pixely2-pixely1)#variable to save the number of pixels in y axis from the area selected from the user
-        #It is shown the numbers of pixels in Y and X axis from the area selected from the user
+        x_axis=abs(pixelx2-pixelx1) #variable to save the number of pixels in x axis from the area selected by the user
+        y_axis=abs(pixely2-pixely1)#variable to save the number of pixels in y axis from the area selected by the user
+        #The numbers of pixels in Y and X axis corresponding to the area selected by the user are shown
         print ('x_axis=',x_axis)
         print ('y_axis=',y_axis)
     
-        # extraer imágenes y pasar a coordenadas de color
+        # Extract images and convert into color coordinates
         
-        p=x_axis*y_axis #variable to save the number of total pixels from the area selected from the user
+        p=x_axis*y_axis #variable to save the number of total pixels from the area selected by the user
         Labim=np.zeros((n,3)) 
         
-        nx=61 #The number of diferrent wavelengths in each spectrum will be 61, one per 5 nm (400-700 nm)
+        nx=61 #The number of different wavelengths in each spectrum will be 61, one per 5 nm (400-700 nm)
         counter=0
         file=0
         global File_path2
@@ -382,7 +382,7 @@ def calculate():
             # Complete file path
             File_path2 = os.path.join(folder, file)
         
-            # opens each image in the selected folder
+            # Opens each image in the selected folder
             if os.path.isfile(File_path2) and file.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.gif')):
                 image1=Image.open(File_path2)
                        
@@ -407,7 +407,7 @@ def calculate():
                 a=a+Lab3[i,1]
                 b=b+Lab3[i,2]
             
-            Labim[counter,:] = [L/p,a/p,b/p] #It is saved average Lab coordinates of the selected area from the user
+            Labim[counter,:] = [L/p,a/p,b/p] #Average Lab coordinates of the user selected area are saved
             counter=counter+1
                 
         #DATA NORMALIZATION
@@ -438,20 +438,20 @@ def calculate():
         
         sol_n_n = load_model('Neural_network.h5') #the file containing all the neural network data is loaded. This file should be saved in the same folder as this script
         
-        process.set("Process completed") #The process has been finished and the text box 6 show it
+        process.set("Process completed") #The process has been finished and the text box 6 shows it
         
-#Function "SK" is associated to button 9. It will be executed when the user decide to select "spectrum kinetics" process
+#Function "SK" is associated with button 9. It will be executed when the user decide to select "spectrum kinetics" process
 def SK():
     
-    global contrast2 #variable to save maximum contrast between obtained spectra 
+    global contrast2 #variable to save maximum contrast from the obtained spectra 
     global wlength1 #variable to save the wavelength in which contrast is maximum
     global wlength #variable to create the entire wavelength range between 400 and 700 nm
     global s
-    global spectrum_pred1 #variable to save spectrum result from the neural network
+    global spectrum_pred1 #variable to save spectrum results from the neural network
        
-    s=1 #It is associated with number 1 to related in "PDF" function
+    s=1 #It is associated with number 1 in "PDF" function
             
-    spectrum_pred=sol_n_n.predict(Labim_norm2) #Spectrum result from neural network, but normalised values
+    spectrum_pred=sol_n_n.predict(Labim_norm2) #Spectrum result from neural network, in normalized (0 to 1) values
     spectrum_pred1=np.zeros((n,nx))
     y=0
     #Necessary loop to undo normalization
@@ -460,7 +460,7 @@ def SK():
         spectrum_pred1[i,j]=spectrum_pred[y,0]
         y=y+1
     
-    #Codex lines to extract maximum contrast an the wavelength in which this contrast is produced.
+    #Code lines to extract maximum contrast and the corresponding wavelength.
     contrast=0
     contrast1=0
     for j in range (nx):
@@ -480,14 +480,14 @@ def SK():
     contrast1=contrast1*100
     contrast2 = round(contrast1, 2)
     
-    #Creation of the matrix "wlength" (axis X to represent spectrum results graphically )
+    #Creation of the matrix "wlength" (axis X to represent spectrum results graphically)
     wlength=np.zeros((61,1))
     z=0
     for i in range (61):
       wlength[i] = 400 + z
       z=z+5
     
-    #Codex lines to represent graphically spectrum results from the neural network in the interface.
+    #Code lines to graphically represent spectrum results from the neural network in the interface.
     fig, axs =plt.subplots(1,1,dpi=80, figsize=(7,5), sharey=True)
     fig.suptitle('Spectrum Kinetics', size=20)
     
@@ -504,18 +504,18 @@ def SK():
     canvas.draw()
     canvas.get_tk_widget().grid(column=4, row=1, rowspan=10)
     
-#Function associated to button 10. It will be executed when the user decide to select "Single wavelength kinetics" process
+#Function associated with button 10. It will be executed when the user decide to select "Single wavelength kinetics" process.
 def SWK():
      
-    global wlength3 #X axis to represent results from the nerual network (represent time in seconds of each value)
-    global spectrum_pred2 #variable to save spectrum results from the neural network. Now, for each image, result is only for the selected wavelength
+    global wlength3 #X axis to represent results from the neural network (represent time in seconds of each value)
+    global spectrum_pred2 #variable to save spectrum results from the neural network. Now, for each image, the result is only for the selected wavelength
     global s
     
     lamda1 = (lamda-400)/300 #user-entered standardized wavelength 
     Labim_norm3=np.zeros((n,4)) #variable to store the results of the neural network when undoing normalization
     t=0
     s=2 #It is associated with number 2 to related in "PDF" function
-    #Necessary loop to obtain only values from the wavelength selected for the user
+    #Necessary loop to obtain only values from the wavelength selected by the user
     for i in range (n*nx):
         if Labim_norm2[i,3] == lamda1:
             Labim_norm3[t,0]=Labim_norm2[i,0]
@@ -524,18 +524,18 @@ def SWK():
             Labim_norm3[t,3]=Labim_norm2[i,3]
             t=t+1
 
-    spectrum_pred2=sol_n_n.predict(Labim_norm3)#Results from the neural network with the values refered to the selected wavelength
+    spectrum_pred2=sol_n_n.predict(Labim_norm3)#Results from the neural network with the values referred to the selected wavelength
     
     
     wlength3=np.zeros((n,1))
-    #Creation of the matrix "wlength" (axis X to represent spectrum results graphically )
+    #Creation of the matrix "wlength" (axis X to represent spectrum results graphically)
     for i in range (n):
         if i==0:
             wlength3[i] = 0
         else:
             wlength3[i]=wlength3[i-1]+time
 
-#Codex lines to represent graphically spectrum results from the neural network in the interface.    
+#Code lines to represent graphically the spectrum results from the neural network in the interface.    
     fig, axs =plt.subplots(1,1,dpi=80, figsize=(7,5), sharey=True)
     fig.suptitle('Single Wavelength Kinetics', size=20)
     
@@ -554,15 +554,15 @@ def SWK():
     canvas.draw()
     canvas.get_tk_widget().grid(column=4, row=1, rowspan=10)
     
-#Function associated to button 13. Clicking this button, three files (PDF,csv, tiff) are saved with the same grapgh that appers in the interface. 
+#Function associated with button 13. Clicking this button, the graph shown in the interface and related data are saved in three different file formats (PDF, .csv and Tiff) 
 def PDF():
     
     global file #variable to store the name that the user has introduced in thext box 8
     file= text_box8.get()
     
-    if s==1:# If the process has been Spectrum Kinetics
+    if s==1:# If the process selected is "Spectrum Kinetics"
         
-        # dataframes are created to introduces values of the X and Y axis of the result graph. This dataframes are neccesary to create the "csv" file
+        # dataframes are created to introduces values of the X and Y axis of the resulting graph. These dataframes are neccesary to create the ".csv" file
         df1 = pd.DataFrame(wlength)
         df2 = pd.DataFrame(np.transpose(spectrum_pred1))
 
@@ -577,7 +577,7 @@ def PDF():
         
         with PdfPages(str(file)+'.pdf') as pdf: #Function to create PDF
             
-            #Codex lines to configure the graph that will appear in the PDF
+            #Code lines to configure the graph that will appear in the PDF file
             txt="Spectrum Kinetics"
             firstPage=plt.figure(figsize=(10,5))
             firstPage.clf()
@@ -599,9 +599,9 @@ def PDF():
             
         saved.set("Saved")
         
-    if s==2: # If the process has been Single Wavelength Kinetics
+    if s==2: # If the process selected is "Single Wavelength Kinetics"
         
-        # dataframes are created to introduces values of the X and Y axis of the result graph. This dataframes are neccesary to create the "csv" file
+        # dataframes are created to introduces values of the X and Y axis of the resulting graph. These dataframes are necessary to create the "csv" file
         df1 = pd.DataFrame(wlength3)
         df2 = pd.DataFrame(spectrum_pred2)
 
@@ -616,7 +616,7 @@ def PDF():
         
         with PdfPages(str(file)+'.pdf') as pdf: #Function to create PDF
             
-            #Codex lines to configure the graph that will appear in the PDF
+            #Code lines to configure the graph that will appear in the PDF
             txt="Single Wavelength Kinetics"
             firstPage=plt.figure(figsize=(10,5))
             firstPage.clf()
@@ -645,7 +645,7 @@ def PDF():
         
         saved.set("Saved")
         
-#Function associated to button 14. This function reset all text bos of the interface
+#Function associated with button 14. This function reset all text boxes of the interface
 def clear():
     
     global time
@@ -654,7 +654,7 @@ def clear():
     time=0
     lamda=0
     
-    #all text box of the interface are reseted
+    #All text boxes of the interface are reset
     wave.set("")
     wave1.set("")
     tframes.set("")
@@ -663,7 +663,7 @@ def clear():
     saved.set("")
     example1.set("")
     
-    #Graph of the interface is reseted
+    #Graph of the interface is reset
     fig, axs =plt.subplots(1,1,dpi=80, figsize=(7,5), sharey=True)
     fig.suptitle('')
     
@@ -672,7 +672,7 @@ def clear():
     canvas.get_tk_widget().grid(column=4, row=1, rowspan=10)
 
     
-#All next functions are associated to infos buttons 
+#All next functions are associated with info buttons 
 def show_explanation():
     explanation = """
     Type of files that can be processed by this spectrophotometer are videos or a sequence of images. Please choose one of them.    
@@ -685,8 +685,8 @@ def show_explanation1():
 -	If a video is selected, please choose this file from any folder. 
 -	If a sequence of images is selected, please follow the next steps to operate the system properly:
 1.	Please, obtain the images at a regular interval (every one second for example).
-2.	Please, save the set of images in a single folder. Besides, save this folder in the same folder in which the script of this software is running. 
-3.	Please, select the first image to be processed, the system will process from this file on.  
+2.	Save the set of images in a single folder. Besides, save this folder in the same folder in which the script of this software is running. 
+3.	Select the first image to be processed, the system will process from this file on.  
     """
     messagebox.showinfo("Step 1", explanation)
 
@@ -705,7 +705,7 @@ def show_explanation3():
 2.	Please, wait until an image of the selected file appears in a pop-up window.
 3.	Then, with the left mouse button, please select the upper left corner of the desired area of study. 
 4.	With the right mouse button, please select the lower right corner, forming a rectangle corresponding to the area to be studied.
-5.	Press escape. 
+5.	Press "esc" key. 
 6.	The process could take some time, mainly if the set of images is big or the video length is large. Please, wait until the process finishes. When the task is done, the next message will appear: “Process completed”
     """
     messagebox.showinfo("Step 3", explanation)
@@ -735,9 +735,9 @@ Clicking the “Clear” button will delete all the information in the screen al
     """
     messagebox.showinfo("Step 6", explanation)
 
-#function associated to button "drop_down_menu"
+#function associated with button "drop_down_menu"
 
-def select_option(option):#This function let to the user select video or image sequence
+def select_option(option):#This function let the user select video or image sequence
     global option1# Variable to save the selected option by the user
     k.config(text="Selected option: " + option)
     if option=="Video":
@@ -762,7 +762,7 @@ frame2.config(bg=background)
 frame2.config(bd=35) #frame border width
 frame2.config(relief="flat")  #for border, border type
 
-#Configuration of the text that appear in the interface
+#Configuration of the text that appears in the interface
 Label(frame2, text="File Type", fg="black",bg=background,font=("arial",14)).grid(row=0, column=0, sticky="w", padx=10, pady=10)
 Label(frame2, text="1. Browse: upload video or image sequence.", fg="black",bg=background,font=("arial",14)).grid(row=1, column=0,sticky="w",padx=10, pady=10,columnspan=3)
 Label(frame2, text="2. Select data acquisition interval.", fg="black",bg=background,font=("arial",14)).grid(row=3, column=0,sticky="w",padx=10, pady=10,columnspan=3)
@@ -852,7 +852,7 @@ tframes=StringVar()
 wave1=StringVar()
 tframes1=StringVar()
 
-# Configuration of the all text box that appear in the interface
+# Configuration of all the text boxes that appear in the interface
 text_box3=Entry(frame2, textvariable=example1,font=("arial",14)) 
 text_box3.grid(row=2, column=1,padx=padx, pady=pady)
 text_box4=Entry(frame2, width=6,textvariable=tframes1,font=("arial",14))
